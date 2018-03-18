@@ -109,7 +109,7 @@ export default {
       getTemplateList(){
         var self = this;
         console.log( 'ROUTE: ', this.$route.name);
-        if(this.$route.name === 'console' || true){
+        if(this.$route.name === 'console' ){
           // axios.get( process.env.BASE_URL + '/console?output_format=json&user_token=' + this.$store.user_token + '&user_email=' + this.$store.user_email )
           this.$axios.get(  'http://zeppelin.axl/console?output_format=json&user_token=' + this.$store.user_token + '&user_email=' + this.$store.user_email )
             .then( resp => {

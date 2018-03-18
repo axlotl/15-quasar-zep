@@ -1,6 +1,9 @@
 <template>
-	<div v-if="inputValue">
+	<div>
 		<!-- <H3>TEXT</H3> -->
+		<p>value: {{internalInputValue}}</p>
+		
+		<p>name: {{formInputName}}</p>
 		<q-input 
 		ref="input"
 		v-model="internalInputValue" 
@@ -42,7 +45,7 @@
 			}
 		},
 		mounted() {
-			this.formInputName = this.formInputName
+			// this.formInputName = this.formInputName
 		},
 		computed : {
 

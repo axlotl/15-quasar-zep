@@ -42,7 +42,7 @@
 
 	}
 </script>
-<!--
+
 
 <style lang="scss">
 textarea {
@@ -52,4 +52,3 @@ textarea {
 }
 </style>
 
--->

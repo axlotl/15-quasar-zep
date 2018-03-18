@@ -23,7 +23,7 @@
 				<h2>{{section}}</h2>
 				<ul class="stuff">
 
-					<li v-if="formChildren[subtypeIndex]" v-for="(subtypeObj, subtypeIndex) in elements" :key="subtypeIndex">
+					<li v-if="typeof formChildren[subtypeIndex] === 'object'" v-for="(subtypeObj, subtypeIndex) in elements" :key="subtypeIndex">
 						<!-- <p class="red">{{subtypeIndex}}::{{formChildren[subtypeIndex].value}}</p> -->
 
 						
@@ -39,21 +39,36 @@
 										v-bind:formInputName="formChildren[subtypeIndex]['subtype']"></RTE>
 									<textInput v-else  
 										v-bind:inputValue="formChildren[subtypeIndex]['value']" 
-										v-bind:formInputName="formChildren[subtypeIndex]['subtype']" 
+										v-bind:formInputName="formChildren[subtypeIndex]['subtype']"
 										@user-input-changed="updateForm"></textInput>
 
 								</div>
-								<!-- <div  v-if="subtypeObj.datatype === 'string'">
-									
-									<RTE v-if="subtypeObj['allow_html']" 
-										v-bind:inputValue="formChildren[subtypeIndex]['value']" 
-										v-bind:formInputName="formChildren[subtypeIndex]['subtype']"></RTE>
-									
-									<textInput v-else  
-										v-bind:inputValue="formChildren[subtypeIndex]['value']" 
-										v-bind:formInputName="formChildren[subtypeIndex]['subtype']" 
-										@user-input-changed="updateForm"></textInput>
-								</div> 
+								<div v-if="formChildren[subtypeIndex].datatype === 'file'">
+									<fileInput  v-bind:formChild="formChildren[subtypeIndex]"></fileInput>						
+								</div>
+
+								<!--
+
+									BREAK OUT THE STRING VALS HERE AND ABOVE
+								-->
+								<div v-if="subtypeObj.datatype === 'select'">
+									<p>formChild: {{formChildren[subtypeIndex]['options']}}</p>
+									<selectInput 
+									v-bind:inputValue="formChildren[subtypeIndex]['value']"
+									v-bind:selectOptions="formChildren[subtypeIndex]['options']"
+									v-bind:formInputName="formChildren[subtypeIndex]['subtype']"></selectInput>
+								</div>
+
+								<!--
+								<div v-if="subtypeObj.datatype === 'select'">
+									<p>{{formChildren[subtypeIndex]['value']}}::{{formChildren[subtypeIndex]['options']}}</p>
+									<selectInput v-bind:inputValue="formChildren[subtypeIndex]['value']" v-bind:selectOptions="formChildren[subtypeIndex]['options']" v-bind:formInputName="formChildren[subtypeIndex]['subtype']"></selectInput>
+								</div>
+
+
+
+
+
 								<div v-if="subtypeObj.datatype === 'datetime'">
 									
 									<dateTimeInput 
@@ -62,37 +77,14 @@
 								
 								</div> -->
 								
-
-
-
-
-
-
-								<!-- <div v-if="subtypeObj.datatype === 'select'">
-									<p>{{formChildren[subtypeIndex]['value']}}::{{formChildren[subtypeIndex]['options']}}</p>
-									<selectInput v-bind:inputValue="formChildren[subtypeIndex]['value']" v-bind:selectOptions="formChildren[subtypeIndex]['options']" v-bind:formInputName="formChildren[subtypeIndex]['subtype']"></selectInput>
-								</div> -->
-
-								
-								
-
-								
-	
-							<!-- 
-							<div v-if="formChildren[subtype].datatype === 'datetime'">
-								
-								<dateTimeInput v-bind:formChild="formChildren[subtype]"></dateTimeInput>
-	
-							</div>
+							<!--
 							<div v-if="formChildren[subtype].datatype === 'relationselector'">
 								<h3>relationselector</h3>
 								
 								<relationselector v-bind:formChild="formChildren[subtype]"></relationselector>
 							</div>
 	
-							<div v-if="formChildren[subtype].datatype === 'file'">
-								<fileInput  v-bind:formChild="formChildren[subtype]"></fileInput>						
-							</div> -->
+							 -->
 							
 						
 						</div>
@@ -125,9 +117,11 @@
 
 	import textInput from './formElements/textInput.vue'
 	import RTE from './formElements/rte.vue'
-	// import selectInput from './formElements/selectInput.vue'
+	import fileInput from './formElements/fileInput.vue'
+	import selectInput from './formElements/selectInput.vue'
+
 	// import dateTimeInput from './formElements/dateTimeInput.vue'
-	// import fileInput from './formElements/fileInput.vue'
+	
 	// import relationselector from './formElements/relationselector.vue'
 	
 	// const today = new Date()
@@ -146,9 +140,10 @@
 			moment,
 
 			textInput,
-			// selectInput,
+			fileInput,
+			selectInput,
 			// dateTimeInput,
-			// fileInput,
+			
 			// relationselector,
 			RTE
 

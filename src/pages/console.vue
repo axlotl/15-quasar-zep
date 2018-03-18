@@ -66,6 +66,9 @@ export default {
 		return { 
 			
 			tableCells : [],
+			templates : [],
+			select: '',
+			
 			templates : []
 		};
 	},
@@ -77,6 +80,7 @@ export default {
 
 	mounted () {
 		this.populateObjectTable();
+		this.getTemplateList()
 	},
 	
 	methods: {
@@ -84,7 +88,7 @@ export default {
 			console.log($ev);
 		},
 	  addRow(image, subtype, name,  objectId) {
-	  	console.log( '_id', objectId);
+	  	// console.log( '_id', objectId);
 	    this.tableCells.push({
 	      image: image,
 	      subtype: subtype,
@@ -134,15 +138,43 @@ export default {
 	  },
 
 
-	  /*
-	  *	vuex methods
-	  */
-		increment () {
-			this.store.commit('increment')
-		},
-		decrement () {
-			this.store.commit('decrement')
-		}
+	  changeContentSelect($ev){
+	    console.log('loading ' + $ev);
+	    this.$router.push('/templateListing/' + $ev);
+	  },
+	  
+	  getTemplateList(){
+	    var self = this;
+	    console.log( 'ROUTE: ', this.$route.name);
+	    if(this.$route.name === 'console' || true){
+	      // axios.get( process.env.BASE_URL + '/console?output_format=json&user_token=' + this.$store.user_token + '&user_email=' + this.$store.user_email )
+	      this.$axios.get(  'http://zeppelin.axl/console?output_format=json&user_token=' + this.$store.user_token + '&user_email=' + this.$store.user_email )
+	        .then( resp => {
+	          console.log('templates:')
+	          console.log(typeof resp, resp);
+	            
+	          // sort and insert available templates
+	          var templates = resp.data.result.data.templates;
+	          // console.log( 'templates after: ', templates);
+	        
+	          Object.keys(templates)
+	          .sort()
+	          .forEach( function( key, template ) {
+	              
+	          self.templates.push({
+	            label : templates[key].name,
+	            value : templates[key].name
+	          }
+	        );
+	      });
+
+	            
+	      })
+	      .catch( err =>{
+	        console.log( 'axios error: ', err);
+	      });
+	    }
+	  }
 	}
 }
 </script>
