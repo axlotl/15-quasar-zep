@@ -1,9 +1,9 @@
 <template>
 	<div>
 		<!-- <H3>TEXT</H3> -->
-		<p>value: {{internalInputValue}}</p>
+<!-- 		<p>value: {{internalInputValue}}</p>
 		
-		<p>name: {{formInputName}}</p>
+		<p>name: {{formInputName}}</p> -->
 		<q-input 
 		ref="input"
 		v-model="internalInputValue" 
@@ -54,16 +54,7 @@
 		methods : {
 			grabUserInput: function($event) {
 				console.log( 'event', $event)
-				// update self
-				
-				
-				console.log('grab is called')
-				console.log(this.value)
-				// this.formChild.value = data
-				// this.$set(this.formChild['value'], 'value', data)
 
-				// const value = data;
-				// this.$emit('formInputName', {subtype : this.formInputName, value: this.internalInputValue})
 
 				//update parent
 				console.log( 'updating parent: ' + this.internalInputValue + '::' + this.formInputName )

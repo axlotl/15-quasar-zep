@@ -20,7 +20,7 @@
 		<form action="" name="editForm" id="editForm">
 			<div class="sectionContainer" v-for="(elements, section) in formDefinition" :key="section">
 			
-				<h2>{{section}}</h2>
+				<h2>{{sectionTitles[section]}}</h2>
 				<ul class="stuff">
 
 					<li v-if="typeof formChildren[subtypeIndex] === 'object'" v-for="(subtypeObj, subtypeIndex) in elements" :key="subtypeIndex">
@@ -52,7 +52,7 @@
 									BREAK OUT THE STRING VALS HERE AND ABOVE
 								-->
 								<div v-if="subtypeObj.datatype === 'select'">
-									<p>formChild: {{formChildren[subtypeIndex]['options']}}</p>
+									<!-- <p>formChild: {{formChildren[subtypeIndex]['options']}}</p> -->
 									<selectInput 
 									v-bind:inputValue="formChildren[subtypeIndex]['value']"
 									v-bind:selectOptions="formChildren[subtypeIndex]['options']"
@@ -150,20 +150,21 @@
 		},
 		data() {
 			return {
-				TESTOS: { },
+				
 				ObjectLoaded: false,
 				formChildren : {},
 				datatypes: {},
 				objectProperties : {},
 				formDefinition : {},
-				text: '',
-				select: '',
+				sectionTitles: {},
+				// text: '',
+				// select: '',
 				submitting:false,
 
 				//form stuff
-				testText: '',
-				userInput : [],
-				entireForm : []
+				// testText: '',
+				// userInput : [],
+				// entireForm : []
 			}
 		},
 		mounted() {
@@ -217,6 +218,8 @@
 				let renameMe = {};
 				const vm = this;
 				const subtype = this.$route.params.subtype
+
+				console.log( 'subtype:', subtype)
 				
 				// let TEMPLATE_URL = process.env.BASE_URL + '/console/get_template/' + subtype;
 				let TEMPLATE_URL = 'http://zeppelin.axl/console/get_template/' + subtype;
@@ -238,22 +241,23 @@
 						}
 
 						// populate the form definition
-
-						
 						const formDefinition = resp.data.result.data.form_definition
-
+						// console.log( 'forDefinition:', formDefinition)
 
 						let definitionObj = {}
 						for( var section in  formDefinition.sections ){
-							// console.log( 'section: '+ section)
+							console.log( 'section: ', formDefinition['sections'][section])
 							definitionObj[section] = {};
 							
 							for ( var item  in formDefinition['sections'][section].elements ){
-								// console.log( item );
+
 								definitionObj[section][item] = {subtype: item};
+
 							}
+							vm.sectionTitles[section] = formDefinition.sections[section].title
+							
 						}
-						// console.log( 'defObj: ' + definitionObj)
+						console.log( 'defObj: ' , definitionObj)
 
 						vm.formDefinition = definitionObj;
 
@@ -386,6 +390,10 @@
 
 
 <style lang="scss">
+h2 {
+	font-size: 30px;
+	margin: 10px 20px;
+}
 	.title {
 		width: 50%;
 		float:left;

@@ -1,9 +1,9 @@
 <template>
 	<div>
 		<!-- <h3>SELECT</h3> -->
-		<p>value: {{internalInputValue}}</p>
+		<!-- <p>value: {{internalInputValue}}</p>
 		<p>options: {{internalSelectOptions}}</p>
-		<p>name: {{formInputName}}</p>
+		<p>name: {{formInputName}}</p> -->
 		<div v-if="internalInputValue">
 			<q-select
 			      v-model="internalInputValue"
